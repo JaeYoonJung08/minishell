@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jaeyojun <jaeyojun@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 20:18:01 by jaju              #+#    #+#             */
-/*   Updated: 2023/07/28 16:27:31 by jaju             ###   ########.fr       */
+/*   Updated: 2023/07/28 22:16:14 by jaeyojun         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,10 @@ int	str_indexof(char *str, char c)
 
 	i = 0;
 	while (str[i] != '\0')
+	{
 		if (str[i] == c)
 			return (i);
+		i++;
+	}
 	return (-1);
 }

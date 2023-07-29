@@ -1,5 +1,5 @@
 NAME := minishell
-SRCS := main.c str.c tokenizer.c allocate.c list.c syntax.c heredoc.c copy.c parser.c is_number.c is_alphabet.c
+SRCS := main.c str.c tokenizer.c allocate.c list.c syntax.c heredoc.c copy.c parser.c is_number.c is_alphabet.c minishell.c
 OBJS := $(SRCS:%.c=%.o)
 ARCS := 
 LIBS := $(dir $(ARCS))

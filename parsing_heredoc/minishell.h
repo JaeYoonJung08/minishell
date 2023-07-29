@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jaeyojun <jaeyojun@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 17:40:16 by jaju              #+#    #+#             */
-/*   Updated: 2023/07/28 18:29:54 by jaju             ###   ########.fr       */
+/*   Updated: 2023/07/28 22:32:26 by jaeyojun         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@
 
 typedef struct s_envp
 {
-	char	*key;
-	char	*name;
+	char			*key;
+	char			*name;
+
+	//next 넣어주기
+	struct s_envp	*next;
 }t_envp;
 
 typedef struct s_minishell
@@ -29,6 +32,7 @@ typedef struct s_minishell
 
 t_minishell	g_minishell;
 
+t_envp	*minishell_init(char **envp);
 char const	*get_envp(char const *str);
 
 #endif
