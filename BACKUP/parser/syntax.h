@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   syntax.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/26 23:34:21 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 19:05:24 by jaju             ###   ########.fr       */
+/*   Created: 2023/07/25 12:37:44 by jaju              #+#    #+#             */
+/*   Updated: 2023/07/29 20:45:50 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef SYNTAX_H
+# define SYNTAX_H
 
-# include <libft/libft.h>
-# include <str/str.h>
+# include <collection/list.h>
+# include "tokenizer.h"
 
-//환경변수 치환 없이 따옴표 제거
-char	*unquote(char const *str);
-//작은 따옴표 ('')를 제외한 부분에서 환경변수 치환
-char	*unquote_env(char const *str);
-//heredoc의 limit string에 들어가는 환경변수를 치환.
-char	*replace_env(char const *str);
+//토큰 리스트 단위 문법 체크
+int	syntax_check(t_list	*tokens);
 
 #endif

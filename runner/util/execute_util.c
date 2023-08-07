@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:52:02 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/07 00:37:32 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/07 20:11:36 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipe.h"
+#include "../runner.h"
 #include <shell/minishell.h>
 #include <parser/compiler.h>
 #include <libft/libft.h>
@@ -35,8 +35,14 @@ void	parent_process(int *prev_read_fd, int *next)
 	(*prev_read_fd) = next[0];
 }
 
-void	child_process(t_process	*tmp, int *prev_read_fd, int *next)
+int	child_process(t_process	*tmp, int *prev_read_fd, int *next)
 {
+	int const	pid = fork();
+
+	if (pid == -1)
+		ft_panic("FORK ERROR");
+	else if (pid > 0)
+		return (pid);
 	//signal 기본값으로 되돌린다.
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -54,6 +60,7 @@ void	child_process(t_process	*tmp, int *prev_read_fd, int *next)
 	close(tmp->in_fd); // in_fd와 out_fd는 닫아도 된다.
 	close(next[0]);// 남은 fd는 다음 파이프에서 받는 fd뿐
 	execute(tmp);
+	return (0);
 }
 
 //builtins 실행
@@ -79,18 +86,18 @@ int	execute_builtins(int builtin_idx, t_process *tmp)
 //builtin or 명령어 실행
 int	execute(t_process *process)
 {
-	char const	*path_envp = get_env("PATH");
+	char const	*env_path = get_env("PATH");
 	int			builtin_idx;
-	char const	*path_split;
+	char		*full_path;
 
 	if (process->name == (void *)0)
 		exit(0);
-	path_split = envp_split(path_envp, process->name);
+	full_path = complete_path(env_path, process->name);
 	if (check_builtin(process->name, &builtin_idx))
 		return (exit(execute_builtins(builtin_idx, process)), 0);
 	else
 	{
-		if (execve(path_split, process->argv, get_envp()) == -1)
+		if (execve(full_path, process->argv, get_envp()) == -1)
 		{
 			printf("bash: %s: command not found\n", process->argv[0]);
 			exit(127);

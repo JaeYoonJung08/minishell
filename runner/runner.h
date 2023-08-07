@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.h                                             :+:      :+:    :+:   */
+/*   runner.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeyojun <jaeyojun@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 15:22:54 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/04 16:51:27 by jaeyojun         ###   ########seoul.kr  */
+/*   Updated: 2023/08/07 19:52:56 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@
 void		process_run(t_list *tokens);
 int			execute_fork(t_list *p_test);
 void		wait_process(int pid);
-void		child_process(t_process	*tmp, int *prev_read_fd, int *next);
+int			child_process(t_process	*tmp, int *prev_read_fd, int *next);
 void		parent_process(int *prev_read_fd, int *next);
 int			check_builtin(char *name, int *idx);
 int			execute(t_process *process);
 int			execute_builtins(int builtin_idx, t_process *tmp);
 void		execute_no_fork(t_process *tmp, int builtin_idx);
-char const	*envp_split(char const *envp_path, char *cmd);
+char		*complete_path(char const *env_path, char *cmd);
 
 #endif

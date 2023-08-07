@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:49:09 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/07 00:37:35 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/07 20:13:28 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipe.h"
+#include "runner.h"
 #include <shell/minishell.h>
 #include <parser/compiler.h>
 #include <libft/libft.h>
@@ -20,7 +20,7 @@
 
 void	exit_code_handler(int status, int *flag_printed, int pid, int child);
 void	parent_process(int *prev_read_fd, int *next);
-void	child_process(t_process	*tmp, int *prev_read_fd, int *next);
+int		child_process(t_process	*tmp, int *prev_read_fd, int *next);
 int		execute_builtins(int builtin_idx, t_process *tmp);
 int		execute(t_process *process);
 
@@ -41,7 +41,6 @@ void	execute_no_fork(t_process *tmp, int builtin_idx)
 	stdout_copy = dup(1);
 	dup2(tmp->out_fd, 1);
 	g_minishell.exit_code = execute_builtins(builtin_idx, tmp);
-	//printf("execute_no_fork : %d\n", g_minishell.exit_code);
 	dup2(stdout_copy, 1);
 	close(stdout_copy);
 }
@@ -65,12 +64,10 @@ int	execute_fork(t_list *p_test)
 		else
 			pipe_init(next, dup(0), dup(1));
 		if (!tmp->bad_process)
-		{
-			pid = fork(); // 자식 프로세스 생성
-			if (pid == 0) // 자식 프로세스
-				child_process(tmp, &prev_read_fd, next);
-		}
-		parent_process(&prev_read_fd, next);
+			pid = child_process(tmp, &prev_read_fd, next);
+		close(prev_read_fd);// 전 파이프에서 받는 fd는 더 이상 쓸 일이 없다.
+		close(next[1]);// 다음 파이프에 출력하는 것도 더이상 필요 없다.
+		prev_read_fd = next[0];
 		i++;
 	}
 	close(prev_read_fd); // 모든게 끝나고 남은 건 이전 파이프의 읽는 fd
