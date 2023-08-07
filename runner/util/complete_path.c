@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_envp.c                                        :+:      :+:    :+:   */
+/*   complete_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeyojun <jaeyojun@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 20:06:52 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/04 17:07:05 by jaeyojun         ###   ########seoul.kr  */
+/*   Updated: 2023/08/07 19:44:58 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipe.h"
+#include "../runner.h"
 #include <libft/libft.h>
 
 //환경변수 + / + 명령어를 한 것 리턴
@@ -29,31 +29,26 @@ static char	*path_join(char const *env, char const *cmd)
 }
 
 //환경변수 실행 권한 확인
-char const	*envp_split(char const *envp_path, char *cmd)
+char	*complete_path(char const *env_path, char *cmd)
 {
-	char		*envp;
-	char		*envp_split;
+	char		*paths;
+	char		*path;
 	char		*combine;
 	int			cmd_exists;
 
-	envp = str_clone(envp_path);
-	if (envp == (void *)0)
-		return ((void *)0);
+	paths = str_clone(env_path);
 	cmd_exists = access(cmd, X_OK);
 	if (cmd_exists != -1)
-		return (cmd);
-	envp_split = str_tokenize(envp, ":");
-	while (envp_split != (void *)0)
+		return (free(paths), cmd);
+	path = str_tokenize(paths, ":");
+	while (path != (void *)0)
 	{
-		combine = path_join(envp_split, cmd);
+		combine = path_join(path, cmd);
 		cmd_exists = access(combine, X_OK);
 		if (cmd_exists != -1)
-		{
-			return (free(envp), combine);
-		}
+			return (free(paths), combine);
 		free(combine);
-		close(cmd_exists);
-		envp_split = str_tokenize((void *)0, ":");
+		path = str_tokenize((void *)0, ":");
 	}
-	return (free(envp), (void *)0);
+	return (free(paths), (void *)0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:08:14 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/07 00:20:41 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/07 18:47:41 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	echo_main(t_process *this)
 	}
 	while (i < this->argc)
 	{
-		if (i != 0)
-			printf(" ");
 		printf("%s", this->argv[i]);
+		if (i != this->argc - 1)
+			printf(" ");
 		i++;
 	}
 	if (!n_flag)

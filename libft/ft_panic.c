@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   panic.c                                            :+:      :+:    :+:   */
+/*   ft_panic.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeyojun <jaeyojun@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 17:20:47 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/01 20:25:58 by jaeyojun         ###   ########seoul.kr  */
+/*   Updated: 2023/08/07 15:51:06 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include <stdlib.h>
 
 
-//panic 바꾸기 
-void	panic(char *msg)
+//ft_panic 바꾸기 
+void	ft_panic(char *msg)
 {
 	printf("%s", msg);
 	exit(1);
