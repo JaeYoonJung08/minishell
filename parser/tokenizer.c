@@ -6,7 +6,7 @@
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 20:33:08 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 15:31:29 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/08 15:12:01 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <str/str.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <shell/minishell.h>
 
 //리다이렉션, 파이프라인과 같은 기호를 토큰으로 만듦, 오류 시 0
 static int	tokenize_symbol(char const **str, t_token *token)
@@ -35,7 +36,8 @@ static int	tokenize_symbol(char const **str, t_token *token)
 	}
 	else if ((*str)[0] == '|')
 		return (token->type = TK_PIPE, (*str)++, 1);
-	return (printf("Invalid token\n"), 0); //ERROR
+	return (printerr("bash: syntax error: invalid token\n"),
+		g_minishell.exit_code = 258, 0);
 }
 
 //기호가 아닌 나머지를 토큰으로 만듦
@@ -54,7 +56,8 @@ static int	tokenize_non_symbol(char const **str, t_token *token)
 			while ((*str)[++i] != '\0' && (*str)[i] != '\"')
 				;
 		if ((*str)[i] == '\0')
-			return (printf("Syntax Error: quote not closed\n"), 0); // EXIT_ERROR!!!!
+			return (printerr("bash: syntax error: quote not closed\n"),
+				g_minishell.exit_code = 258, 0);
 		i++;
 	}
 	token->content = str_substr(*str, 0, i);
@@ -77,9 +80,9 @@ int	tokenize(char const *s, t_token **token)
 		return (str = (void *)0, *token = (void *)0, 1);
 	*token = allocate(sizeof(t_token));
 	if (str_includes("|><&()\\;", *str))
-		return (tokenize_symbol(&str, *token)); // Error 전파
+		return (tokenize_symbol(&str, *token));
 	else
-		return (tokenize_non_symbol(&str, *token));// Error 전파
+		return (tokenize_non_symbol(&str, *token));
 }
 
 //주어진 문자열을 토큰 리스트로 만들어 리턴함
@@ -88,14 +91,14 @@ int	tokenize_command(char const *str, t_list *list)
 	t_token	*token;
 
 	if (!tokenize(str, &token))
-		return (0);
+		return (free(token), 0);
 	while (token != (void *)0)
 	{
 		list_add(list, token);
 		if (!tokenize((void *)0, &token))
-			return (0);
+			return (free(token), 0);
 	}
-	return (1);
+	return (free(token), 1);
 }
 
 void	token_free(void *token)

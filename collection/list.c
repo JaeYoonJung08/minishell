@@ -6,7 +6,7 @@
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 01:59:14 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 15:52:59 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/07 20:29:25 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,7 @@
 
 typedef unsigned int	t_byte;
 
-static void	resize(t_list *this, int new_size)
-{
-	void**const	new = allocate(new_size * sizeof(void *));
-	int			i;
-
-	i = 0;
-	while (i < this->capacity)
-	{
-		if (i >= new_size)
-			break ;
-		new[i] = this->data[i];
-		i++;
-	}
-	free(this->data);
-	this->data = new;
-	this->capacity = new_size;
-}
+void	resize(t_list *this, int new_size);
 
 void	list_init(t_list *this)
 {
@@ -70,24 +54,4 @@ void	*list_remove(t_list *this, int idx)
 	}
 	this->length--;
 	return (data);
-}
-
-void	list_free(t_list *this)
-{
-	free(this->data);
-}
-
-void	list_free_all(t_list *this, void (*data_free)(void *))
-{
-	int	i;
-
-	i = 0;
-	while (i < this->length)
-	{
-		if (data_free != (void *)0)
-			data_free(this->data[i]);
-		free(this->data[i]);
-		i++;
-	}
-	free(this->data);
 }

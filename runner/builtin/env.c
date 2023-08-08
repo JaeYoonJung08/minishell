@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 13:09:29 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 00:21:10 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/08 01:56:12 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ int	env_main(t_process *this)
 	while (i < env_list->length)
 	{
 		env = list_get(env_list, i);
-		//env->value이 null일 때
-		if (!env->value)
-			return (ERROR_EXIT);
 		if (env->value != (void *)0)
 			printf("%s=%s\n", env->name, env->value);
 		i++;

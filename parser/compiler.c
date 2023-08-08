@@ -6,7 +6,7 @@
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 15:51:48 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 15:08:39 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/08 14:43:03 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,33 @@ int		set_output(t_process *process, char *filename, int append);
 int		set_input(t_process *process, char *filename);
 
 //토큰 리스트로부터 프로세스의 정보를 채워넣음
-static int	parse_process(t_process *process, t_list const *tokens,
-	int *i)
+static void	parse_process(t_process *process, t_list const *tokens, int *i)
 {
 	t_token			*token;
+	int				success;
 
-	token = list_get(tokens, *i);
-	while (*i < tokens->length && token->type != TK_PIPE)
+	success = 1;
+	while (*i < tokens->length)
 	{
+		token = list_get(tokens, (*i)++);
+		if (!(token->type != TK_PIPE))
+			return ((*i)--, (void)0);
+		if (!success)
+			continue ;
 		if (token->type == TK_STR && process->name == (void *)0)
 			set_name(process, token->content);
 		else if (token->type == TK_STR)
 			add_arg(process, token->content);
 		else if (token->type == TK_ORD)
-			set_output(process, ((t_token *)list_get(tokens, ++(*i)))->content, FALSE);
+			success = set_output(process,
+					((t_token *)list_get(tokens, (*i)++))->content, FALSE);
 		else if (token->type == TK_ARD)
-			set_output(process, ((t_token *)list_get(tokens, ++(*i)))->content, TRUE);
+			success = set_output(process,
+					((t_token *)list_get(tokens, (*i)++))->content, TRUE);
 		else if (token->type == TK_IRD)
-			set_input(process, ((t_token *)list_get(tokens, ++(*i)))->content);
-		token = list_get(tokens, ++(*i));
+			success = set_input(process,
+					((t_token *)list_get(tokens, (*i)++))->content);
 	}
-	return (token != (void *)0);
 }
 
 //파이프라인 (|) 단위로 프로세스를 만들어 리스트에 넣고 리턴

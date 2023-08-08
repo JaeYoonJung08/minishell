@@ -6,7 +6,7 @@
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 18:22:34 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 15:53:01 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/08 02:36:27 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ int		is_alphabet(char c);
 int		is_number(char c);
 //주어진 문자열을 출력하고 exit
 void	ft_panic(char *msg);
-//int를 나타내는 string을 생성
+//stderr에 str을 출력
+void	printerr(char const *str);
+//bash: 출력 후 perror
+void	basherr(char const *str);
+//bash: 출력 후 에러 내용까지 직접
+void	fakebasherr(char const *str, char const *err);
 
 #endif

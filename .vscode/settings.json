@@ -1,46 +1,5 @@
 {
 	"files.associations": {
-		"minishell.h": "c",
-		"str.h": "c",
-		"list.h": "c",
-		"ostream": "c",
-		"unistd.h": "c",
-		"compiler.h": "c",
-		"sstream": "c",
-		"typeinfo": "c",
-		"array": "c",
-		"string": "c",
-		"string_view": "c",
-		"vector": "c",
-<<<<<<< HEAD
-		"type_traits": "c",
-		"utility": "c",
-		"memory_resource": "c",
-		"memory": "c",
-		"__bit_reference": "c",
-		"__functional_base": "c",
-		"__node_handle": "c",
-		"algorithm": "c",
-		"bitset": "c",
-		"chrono": "c",
-		"__memory": "c",
-		"functional": "c",
-		"iterator": "c",
-		"limits": "c",
-		"optional": "c",
-		"ratio": "c",
-		"system_error": "c",
-		"tuple": "c",
-		"libft.h": "c"
-=======
-		"__config": "c",
-		"__hash_table": "c",
-		"__locale": "c",
-		"functional": "c",
-		"ios": "c",
-		"iterator": "c",
-		"locale": "c",
-		"type_traits": "c"
->>>>>>> upstream/main
+		"minishell.h": "c"
 	}
 }

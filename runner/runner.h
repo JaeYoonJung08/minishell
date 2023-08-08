@@ -6,12 +6,12 @@
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 15:22:54 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/07 19:52:56 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/07 20:39:15 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPE_H
-# define PIPE_H
+#ifndef RUNNER_H
+# define RUNNER_H
 
 # include <str/str.h>
 # include <parser/tokenizer.h>

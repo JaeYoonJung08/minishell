@@ -6,7 +6,7 @@
 /*   By: jaeyojun <jaeyojun@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 21:59:04 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/08 02:40:13 by jaeyojun         ###   ########seoul.kr  */
+/*   Updated: 2023/08/08 16:54:34 by jaeyojun         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,6 @@ void	process_run(t_list *tokens)
 		wait_process(pid);
 	}
 	signal(SIGINT, main_sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 	list_free_all(&process_list, process_free);
 }
