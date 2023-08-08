@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeyojun <jaeyojun@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:11:35 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/03 17:12:35 by jaeyojun         ###   ########seoul.kr  */
+/*   Updated: 2023/08/08 13:51:31 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 
 # include <stdlib.h>
 # include <signal.h>
+# include <str/str.h>
+# include <unistd.h>
 
 void	all_signal(void);
 void	main_sigint_handler(int sign);
 void	main_sigterm_handler(void);
+void	sig_quit(int code);
 
 #endif

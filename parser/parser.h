@@ -6,7 +6,7 @@
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 23:34:21 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 19:05:24 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/07 21:43:52 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@ char	*unquote(char const *str);
 char	*unquote_env(char const *str);
 //heredoc의 limit string에 들어가는 환경변수를 치환.
 char	*replace_env(char const *str);
+int		parse_var(char const *src, char **out);
+int		unquote_double(char const *src, char **dst);
 
 #endif

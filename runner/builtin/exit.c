@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 21:54:31 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 00:30:38 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/08 02:39:29 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
 
 typedef unsigned long long	t_ull;
 
-//positive -> abs % 256;
-//negative -> 256 - (abs % 256)
+//positive -> abs % 256; negative -> 256 - (abs % 256)
 static int	parse_exit_code(char const *str, int *code)
 {
 	int		is_negative;
@@ -63,11 +62,13 @@ int	exit_main(t_process *this)
 	printf("exit\n");
 	if (!parse_exit_code(this->argv[1], &code))
 	{
-		printf("bash: exit: %s: numeric argument required\n", unquote_env(this->argv[1]));
-		exit(255); //numeric argument required
+		printerr("bash: exit:");
+		printerr(this->argv[1]);
+		printerr("numeric argument required\n");
+		exit(255);
 	}
 	else if (this->argc == 2)
 		exit(code);
-	printf("exit: too many arguments\n");
+	printerr("bash: exit: too many arguments\n");
 	return (1);
 }

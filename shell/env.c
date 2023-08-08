@@ -6,7 +6,7 @@
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 03:49:42 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 19:19:50 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/07 20:33:37 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 #include <str/str.h>
 #include <libft/libft.h>
 #include <stdlib.h>
-
-/*
-get_env
-set_env
-remove_env
-get_envp
-*/
 
 //envp구조체를 char *로 만들어 줌
 char	*env_to_str(t_env *env);
@@ -60,7 +53,8 @@ void	set_env(char const *name, char const *value)
 			if (value == (void *)0)
 				return ;
 			else
-				return (free(env->value), env->value = str_clone(value), (void)0);
+				return (free(env->value), env->value = str_clone(value), \
+					(void)0);
 		}
 	}
 	env = allocate(sizeof(t_env));

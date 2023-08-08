@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 01:39:01 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/07 00:31:30 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/08 02:40:15 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+
+t_env	**to_array(t_list *env_list);
 
 static int	syntax_var_name(char const *str)
 {
@@ -54,27 +56,21 @@ static int	parse_arg(char const *str, char **name, char **value)
 	return (syntax_var_name(*name));
 }
 
-//export var: 없으면 변수 생성, 있으면 아무것도 안함
-//export var=value: 없으면 값 생성 후 대입, 있으면 그냥 대입
-//export: 모든 환경변수를 보여줌. 환경변수 값은 ""로 감쌈, 값이 없는 변수는 이름만 보임
-
-static int	export_view()
+static int	export_view(void)
 {
-	t_list*const	env_list = &g_minishell.env_list;
-	t_env			*env;
-	int				i;
+	t_env**const		envp = to_array(&g_minishell.env_list);
+	int					i;
 
 	i = 0;
-	while (i < env_list->length)
+	while (envp[i] != (void *)0)
 	{
-		env = list_get(env_list, i);
-		if (env->value == (void *)0)
-			printf("declare -x %s\n", env->name);
+		if (envp[i]->value == (void *)0)
+			printf("declare -x %s\n", envp[i]->name);
 		else
-			printf("declare -x %s=\"%s\"\n", env->name, env->value);
+			printf("declare -x %s=\"%s\"\n", envp[i]->name, envp[i]->value);
 		i++;
 	}
-	return (0);
+	return (free(envp), 0);
 }
 
 static int	export_set(t_process *this)
@@ -92,8 +88,9 @@ static int	export_set(t_process *this)
 			set_env(name, value);
 		else
 		{
-			printf("bash: export: `%s`: not a valid identifier\n",
-				this->argv[i]);
+			printerr("bash: export: `");
+			printerr(this->argv[i]);
+			printerr("` not a valid identifier\n");
 			exit_code = 1;
 		}
 		free(name);

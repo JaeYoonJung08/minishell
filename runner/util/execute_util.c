@@ -6,7 +6,7 @@
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:52:02 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/07 20:11:36 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/08 13:52:06 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int		unset_main(t_process *this);
 void	parent_process(int *prev_read_fd, int *next)
 {
 	signal(SIGINT, SIG_IGN);
-	close((*prev_read_fd));// 전 파이프에서 받는 fd는 더 이상 쓸 일이 없다.
-	close(next[1]);// 다음 파이프에 출력하는 것도 더이상 필요 없다.
+	close((*prev_read_fd));
+	close(next[1]);
 	(*prev_read_fd) = next[0];
 }
 
@@ -43,22 +43,21 @@ int	child_process(t_process	*tmp, int *prev_read_fd, int *next)
 		ft_panic("FORK ERROR");
 	else if (pid > 0)
 		return (pid);
-	//signal 기본값으로 되돌린다.
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	if (tmp->in_fd == 0) // Input redirection이 없을 때는
-		tmp->in_fd = (*prev_read_fd); // 그 자리를 이전 파이프에서 받는 fd로 채운다
+	if (tmp->in_fd == 0)
+		tmp->in_fd = (*prev_read_fd);
 	else
 		close((*prev_read_fd));
-	if (tmp->out_fd == 1) // Output redirection이 없을 때는
-		tmp->out_fd = next[1]; // 그 자리를 다음 파이프에 쓰는 fd로 채운다
+	if (tmp->out_fd == 1)
+		tmp->out_fd = next[1];
 	else
 		close(next[1]);
-	dup2(tmp->in_fd, 0); // 표준 입출력이 in_fd와 out_fd를 대체하도록 한다
+	dup2(tmp->in_fd, 0);
 	dup2(tmp->out_fd, 1);
 	close(tmp->out_fd);
-	close(tmp->in_fd); // in_fd와 out_fd는 닫아도 된다.
-	close(next[0]);// 남은 fd는 다음 파이프에서 받는 fd뿐
+	close(tmp->in_fd);
+	close(next[0]);
 	execute(tmp);
 	return (0);
 }
@@ -99,7 +98,7 @@ int	execute(t_process *process)
 	{
 		if (execve(full_path, process->argv, get_envp()) == -1)
 		{
-			printf("bash: %s: command not found\n", process->argv[0]);
+			fakebasherr(process->argv[0], "command not found\n");
 			exit(127);
 		}
 		return (1);
@@ -118,8 +117,6 @@ void	exit_code_handler(int status, int *flag_printed, int pid, int child)
 		{
 			if (signo == SIGINT)
 				printf("^C\n");
-			else if (signo == SIGQUIT)
-				printf("^\\Quit: 3\n");
 			(*flag_printed) = 1;
 		}
 		if (child == pid)
