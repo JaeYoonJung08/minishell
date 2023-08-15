@@ -6,7 +6,7 @@
 /*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 16:35:44 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/08 10:57:26 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/11 18:35:56 by jaju             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	set_output(t_process *process, char *filename, int append)
 	if (append)
 		process->out_fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
-		process->out_fd = open(filename, O_WRONLY | O_CREAT, 0644);
+		process->out_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	process->append = append;
 	if (process->out_fd == -1)
 	{

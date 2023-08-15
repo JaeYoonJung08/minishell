@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jaeyojun <jaeyojun@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 12:38:51 by jaju              #+#    #+#             */
-/*   Updated: 2023/08/08 14:48:25 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/11 16:46:50 by jaeyojun         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	successive_token_check(t_list *tokens)
 		curr = list_get(tokens, i);
 		next = list_get(tokens, i + 1);
 		if ((curr->type != TK_STR && next->type != TK_STR)
-			|| (curr->type == TK_PIPE && next->type == TK_PIPE))
+			&& (curr->type == TK_PIPE && next->type == TK_PIPE))
 			return (1);
 		i++;
 	}

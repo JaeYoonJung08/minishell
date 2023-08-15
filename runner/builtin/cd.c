@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaju <jaju@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jaeyojun <jaeyojun@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:42:10 by jaeyojun          #+#    #+#             */
-/*   Updated: 2023/08/08 10:58:27 by jaju             ###   ########.fr       */
+/*   Updated: 2023/08/14 18:12:43 by jaeyojun         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	check_behind(t_process *this)
 	else
 	{
 		basherr(this->argv[1]);
+		g_minishell.exit_code = 1;
 		return (ERROR_EXIT);
 	}
 }
@@ -66,6 +67,8 @@ int	cd_main(t_process *this)
 	if (chdir(path_envp) == -1)
 	{
 		basherr(this->argv[1]);
+		g_minishell.exit_code = 1;
+		return (ERROR_EXIT);
 	}
 	update_pwd();
 	return (SUCCES_EXIT);
